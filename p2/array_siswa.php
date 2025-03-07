@@ -17,7 +17,7 @@ $ar_nilai = [$ns1, $ns2, $ns3, $ns4];
 
 <body>
     <h3>Daftar nilai siswa</h3>
-    <table border="1" cellpadding='10' cellspacing='1'>
+    <table border="1" cellpadding='10' cellspacing=''>
         <thead>
             <tr>
                 <th>No</th>
