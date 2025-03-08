@@ -28,7 +28,7 @@
     <main role="main" class="container mt-3">
         <h3>Form Penilaian Siswa</h3>
         <hr />
-        <form class="mx-auto" action="" method="GET">
+        <form class="mx-auto" action="form_nilai.php" method="POST">
             <div class="form-group row">
                 <label for="nama" class="col-5 col-form-label font-weight-bold text-right">Nama Lengkap</label>
                 <div class="col-7">
@@ -70,26 +70,56 @@
             </div>
         </form>
         <?php
-        $proses = isset($_GET['proses']) ? $_GET['proses'] : "";
-        $nama_siswa = isset($_GET['nama']) ? $_GET['nama'] : "";
-        $mata_kuliah = isset($_GET['matkul']) ? $_GET['matkul'] : "";
-        $nilai_uts = isset($_GET['nilai_uts']) ? $_GET['nilai_uts'] : "";
-        $nilai_uas = isset($_GET['nilai_uas']) ? $_GET['nilai_uas'] : "";
-        $nilai_tugas = isset($_GET['nilai_tugas']) ? $_GET['nilai_tugas'] : "";
+        $nama_siswa = isset($_POST['nama']) ? $_POST['nama'] : "";
+        $mata_kuliah = isset($_POST['matkul']) ? $_POST['matkul'] : "";
+        $nilai_uts = isset($_POST['nilai_uts']) ? $_POST['nilai_uts'] : "";
+        $nilai_uas = isset($_POST['nilai_uas']) ? $_POST['nilai_uas'] : "";
+        $nilai_tugas = isset($_POST['nilai_tugas']) ? $_POST['nilai_tugas']  : "";
+        $nilai_total = round(($nilai_uts * 0.3) + ($nilai_uas * 0.35) + ($nilai_tugas * 0.35), 2);
 
+        if ($nilai_total >= 85 && $nilai_total == 100) {
+            $grade = 'A';
+            $predikat = 'Sangat Memuaskan';
+        } elseif ($nilai_total >= 70) {
+            $grade = 'B';
+            $predikat = 'Memuaskan';
+        } elseif ($nilai_total >= 56) {
+            $grade = 'C';
+            $predikat = 'Cukup';
+        } elseif ($nilai_total >= 36) {
+            $grade = 'D';
+            $predikat = 'Kurang';
+        } elseif ($nilai_total >= 0) {
+            $grade = 'E';
+            $predikat = 'Sangat Kurang';
+        } else {
+            $grade = 'I';
+            $predikat = 'Tidak Ada';
+        }
 
-        echo "Proses : " . $proses;
-        echo "<br/>Nama : " . $nama_siswa;
-        echo "<br/>Mata Kuliah : " . $mata_kuliah;
-        echo "<br/>Nilai UTS : " . $nilai_uts;
-        echo "<br/>Nilai UAS : " . $nilai_uas;
-        echo "<br/>Nilai Tugas Praktikum : " . $nilai_tugas;
+        if ($nilai_total > 55) {
+            $status = "Lulus";
+        } else {
+            $status = "Tidak Lulus";
+        }
+
+        if (isset($_POST['proses'])) {
+            echo "<br/>Nama : " . $nama_siswa;
+            echo "<br/>Mata Kuliah : " . $mata_kuliah;
+            echo "<br/>Nilai UTS : " . $nilai_uts;
+            echo "<br/>Nilai UAS : " . $nilai_uas;
+            echo "<br/>Nilai Tugas Praktikum : " . $nilai_tugas;
+            echo "<br/>Nilai Total : " . $nilai_total;
+            echo "<br/>Grade : " . $grade;
+            echo "<br/>Predikat : " . $predikat;
+            echo "<br/>Status : "  . $status;
+        }
         ?>
     </main>
 
 
 
-    <footer class="mt-5" style="bottom: 0; left: 0; right: 0; position: fixed;">
+    <footer class="mt-5">
         <nav class="navbar navbar-expand-md navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand" href="https://instagram.com/al.absory/">&copy;<?= date("Y") ?> <span style="color: blue;">@al.absory</span> </a>
